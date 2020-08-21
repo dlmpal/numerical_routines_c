@@ -101,6 +101,30 @@ void matrix_mult(int rows1 , int cols1 , int cols2 , double matrix1[][cols1] , d
         }
     }
 }
+void matrix_times_vector(int rows , int cols , double  matrix[][cols] , double vector[cols] , double product[rows]){
+    register int i;
+    register int j;
+    for(i = 0 ; i < rows ; i++){
+        product[i] = 0;
+        for(j = 0 ; j < cols ;j++){
+            product[i] += matrix[i][j] * vector[j];
+        }
+    }
+}
+
+void vector_times_matrix(int rows , int cols , double matrix[rows][cols] , double vector[rows],double product[cols] ){
+    register int i;
+    register int j;
+    register double current_sum ;
+    for(j = 0 ; j < cols ; j++){
+        current_sum = 0. ;
+        for(i = 0 ; i < rows ; i++){
+            current_sum += vector[i] * matrix[i][j];
+        }
+        product[j] = current_sum;
+    }
+}
+
 
 void create_identity_matrix(int n , double matrix[][n]){
     register int i ;
@@ -135,13 +159,14 @@ void solve_system(int n , double A_matrix[][n], double B_vector[n] , double AM[]
     register int fd;
     register int i ;
     register int k ;
+    register int j ;
+    register double current_scaler;
     for( fd = 0 ; fd < n ; fd++) {
         scaler = 1 / (AM[fd][fd]);
-        for (int j = 0; j < n; j++) {
+        for ( j = 0; j < n; j++) {
             AM[fd][j] *= scaler;
         }
         BM[fd] *= scaler;
-        double current_scaler;
         for ( i = 0; i < fd; i++) {
             current_scaler = AM[i][fd];
             for ( k = 0; k < n; k++) {
@@ -245,9 +270,38 @@ void vector_zeroes(int n , double vector[n]){
 void nabs(double n ){
     n = (n>=0) ? n : -n;
 }
-long get_num_of_instances(double t_zero , double t_final , double time_step){
-    long num_of_instances = (long) (t_final-t_zero)/time_step;
-    return num_of_instances;
+
+void create_vandermonde_matrix(int rows , int cols , double val_vector[rows] , double v_matrix[][cols]){
+    register int i ;
+    register int j;
+    for(i = 0 ; i < rows ; i++) {
+        for (j = 0; j < cols; j++) {
+            v_matrix[i][j] = pow(val_vector[i], j);
+        }
+    }
 }
+
+
+double matrix_element_sum(long rows , long cols , double matrix[][cols]  ){
+    register long i ;
+    register long j;
+    register double sum = 0 ;
+    for(i = 0 ; i < rows ; i++){
+        for(j = 0 ; j < cols ; j++){
+            sum += matrix[i][j];
+        }
+    }
+    return sum;
+}
+double vector_element_sum(long n ,  double vector[n]){
+    register long i ;
+    register double sum = 0 ;
+    for(i = 0 ; i < n ; i++){
+        sum += vector[i];
+    }
+    return sum ;
+}
+
+
 
 #endif //LINALG_LINALG_H
