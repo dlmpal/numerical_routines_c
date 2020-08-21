@@ -158,7 +158,7 @@ void rk45_solve(int dim, void (*f)(double, double *, double *), double *initial_
         yk = (double *) malloc(dim * sizeof(double));
         yk = initial_cond;
         double tk = time_zero;
-        register int count = 0;
+        register long count = 0;
         register int i ;
         while (tk <= time_final) {
             for(i = 0 ; i < dim ; i++){
