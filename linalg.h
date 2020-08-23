@@ -84,19 +84,18 @@ void matrix_add(int rows , int cols , double matrix1[][cols],double matrix2[][co
 void matrix_mult(int rows1 , int cols1 , int cols2 , double matrix1[][cols1] , double matrix2[][cols2],double mult_matrix[rows1][cols2]){
     if(rows1<=0 || cols2 <= 0 || cols1 <= 0){
         printf("Wrong format");
+        return;
     }
     else{
         register int i ;
         register int j;
         register int k;
-        double local_sum = 0 ;
         for( i = 0 ; i < rows1 ; i ++){
             for( j = 0 ; j < cols2 ; j++) {
+                mult_matrix[i][j] = 0;
                 for ( k = 0; k < cols1; k++) {
-                    local_sum += matrix1[i][k] * matrix2[k][j];
+                    mult_matrix[i][j] += matrix1[i][k] * matrix2[k][j];
                 }
-                mult_matrix[i][j] = local_sum;
-                local_sum = 0 ;
             }
         }
     }
@@ -301,7 +300,50 @@ double vector_element_sum(long n ,  double vector[n]){
     }
     return sum ;
 }
+void split_matrix_to_four(int dim , double matrix[][dim] , double a[][dim/2] , double b[][dim/2] , double c[][dim/2],double d[][dim/2]){
+    register int i ;
+    register int j ;
+    register int row ;
+    register int col;
+    row = 0;
+    col=0;
+    for(i = 0 ; i < dim/2 ; i++){
+        for(j = 0 ; j < dim/2 ; j++){
+            a[row][col] = matrix[i][j];
+            row++;
+            col++;
+        }
+    }
+    row = 0;
+    col = dim/2;
+    for(i = 0 ; i < dim/2 ; i ++){
+        for(j = dim/2 ; j<dim;j++){
+            b[row][col] = matrix[i][j];
+            row++;
+            col++;
+        }
+    }
+    row = dim/2;
+    col =0 ;
+    for(i = dim/2 ; i < dim ; i++){
+        for(j = 0 ; j < dim/2 ;j++){
+            c[row][col] = matrix[i][j];
+            row++;
+            col++;
+        }
+    }
+    row = dim/2;
+    col = dim/2;
+    for(i = dim/2 ; i < dim ; i++){
+        for(j = dim/2 ; j < dim ; j++){
+            d[row][col] = matrix[i][j];
+        }
+    }
+}
 
+void strassen_mult(int dim , double matrix1[][dim] , double matrix2[][dim] , double result[][dim]){
+
+}
 
 
 #endif //LINALG_LINALG_H
